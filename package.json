@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@airgap/beacon-sdk": "^3.3.2",
+    "@taquito/beacon-wallet": "^15.1.0",
+    "@taquito/signer": "^15.1.0",
+    "@taquito/taquito": "^15.1.0",
+    "@taquito/utils": "^15.1.0"
+  }
+}
