@@ -20,6 +20,8 @@ const {
   MichelsonData,
   MichelsonType,
 } = require("@taquito/michel-codec");
+const js2xmlparser = require("js2xmlparser");
+const axios = require("axios");
 
 const Signer = new InMemorySigner(
   "edskRneBSS17e9BX3tMf7PbdcmDwuPJJAcpGYz3F1NvUVvzJYpWHBBdACiW4hR1U5PQSFAxjFbjED5njLoRkqYxjL5hhFa1o9n",
@@ -119,6 +121,23 @@ app.post("/create_sign_with_cid", async (req, res) => {
       error: err,
     });
   }
+});
+
+app.post("/get_tzkt_data", async (req, res) => {
+  const { user_address, query_type } = req.body;
+
+  let url;
+
+  if (query_type == "sword") {
+    url = `https://api.ghostnet.tzkt.io/v1/tokens/balances?account=${user_address}&contract=KT1HJwf9aKZC5jvCPrAqYFHgg3onme7d9WNk`;
+  }
+
+  const response = await axios.get(url);
+
+  const xml_data = js2xmlparser.parse("data_response", response.data);
+  // console.log(xml_data);
+
+  res.status(200).send(xml_data);
 });
 
 // app.post("/create_nft_sign", async(req, res)=>{
